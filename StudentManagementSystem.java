@@ -286,12 +286,39 @@ class StudentManagementSystem {
         System.out.println("\n[5] Exit");
     }
 
-    // Delete Student
-    public static void deleteStudentsProfile() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("-------------------------------------------------------------------------");
-        System.out.println("|\t\t\t\tDelete Student Profile\t\t\t|");
-        System.out.println("-------------------------------------------------------------------------\n");
+    // check batch status
+    public static boolean checkBatchStatus(int batch) {
+        for (int i = 0; i < batchArray.length; i++) {
+            if (batchArray[i].getBatchId().equals(Integer.toString(batch))) {
+                if (batchArray[i].getStatus() == 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // check NIC
+    public static int checkedNic(String nic) {
+        for (int i = 0; i < studentsArray.length; i++) {
+            if (nic.equals(studentsArray[i].getNic())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // generate student Id
+    public static String generatestudentId(int lectureMode) {
+        String lastId = studentsArray[(studentsArray.length - 1)].getRegNo();;
+        String id = "";
+        int lastdigits = Integer.parseInt(lastId.substring(lastId.length() - 2));
+        if (lectureMode == 0) {
+            id = "OR" + lastId.substring(2, 7) + String.format("%03d", lastdigits + 1);
+        } else {
+            id = "PR" + lastId.substring(2, 7) + String.format("%03d", lastdigits + 1);
+        }
+        return id;
     }
 
     // Add Student
@@ -300,6 +327,91 @@ class StudentManagementSystem {
         System.out.println("-------------------------------------------------------------------------");
         System.out.println("|\t\t\t\tAdd Student\t\t\t\t|");
         System.out.println("-------------------------------------------------------------------------\n");
+
+        L1: do {
+            System.out.print("Enter Batch Number (Students should be added): ");
+            int batch = input.nextInt();
+            if (checkBatchStatus(batch)) {
+                L3: do {
+                    System.out.print("\nEnter Student NIC: ");
+                    String nic = input.next();
+                    
+                    if ((checkedNic(nic) == -1)) {
+                        System.out.print("\nEnter Student Name: ");
+                        String name = input.next();
+                        System.out.print("\nEnter Lecturer Mode (1-PHYSICAL 0-ONLINE): ");
+                        int lectureMode = input.nextInt();
+                        String id=generatestudentId(lectureMode);
+
+                        Student[] tempstuArray = new Student[studentsArray.length + 1];
+
+                        for (int i = 0; i < studentsArray.length; i++) {
+                            tempstuArray[i] = studentsArray[i];
+                        
+                        }
+                        tempstuArray[tempstuArray.length - 1] = new Student(id, nic, name, -1, -1);
+
+                        studentsArray = tempstuArray;
+
+                        System.out.print("\n\n\tStudent Registration No - "+id);
+                        System.out.print("\n\nStudent was successfully added to the system.");
+                        L2: do {
+                            System.out.print("\n\nDo you want to add another student (Y/N): ");
+                            String option = input.next();
+                            if (option.equalsIgnoreCase("Y")) {
+                                clearConsole();
+                                addStudent();
+                            } else if (option.equalsIgnoreCase("N")) {
+                                clearConsole();
+                                homePage();
+                            } else {
+                                System.out.println("\tInvalid option..input again...");
+                                continue L2;
+                            }
+                        } while (true);
+
+                    } else {
+                        System.out.print("\n\tThis student is already added to the system.");
+                        L2: do {
+                            System.out.print("\nDo you want to add another student to this Batch (Y/N): ");
+                            String option = input.next();
+                            if (option.equalsIgnoreCase("Y")) {
+                                // Clear the lines
+                                System.out.print("\033[4A");
+                                System.out.print("\033[0J");
+                                continue L3;
+                            } else if (option.equalsIgnoreCase("N")) {
+                                clearConsole();
+                                homePage();
+                            } else {
+                                System.out.println("\tInvalid option..input again...");
+                                continue L2;
+                            }
+                        } while (true);
+                    }
+
+                } while (true);
+
+            } else {
+                System.out.print("\n\n\tStudents cannot be added to this batch because enrollment is closed.");
+                L2: do {
+                    System.out.print("\n\nDo you want to add student to another Batch (Y/N): ");
+                    String option = input.next();
+                    if (option.equalsIgnoreCase("Y")) {
+                        clearConsole();
+                        addStudent();
+                    } else if (option.equalsIgnoreCase("N")) {
+                        clearConsole();
+                        homePage();
+                    } else {
+                        System.out.println("\tInvalid option..input again...");
+                        continue L2;
+                    }
+                } while (true);
+            }
+        } while (true);
+
+
     }
 
     // Update Student
@@ -309,6 +421,15 @@ class StudentManagementSystem {
         System.out.println("|\t\t\t\tUpdate Student\t\t\t\t|");
         System.out.println("-------------------------------------------------------------------------\n");
     }
+
+    // Delete Student
+    public static void deleteStudentsProfile() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.println("|\t\t\t\tDelete Student Profile\t\t\t|");
+        System.out.println("-------------------------------------------------------------------------\n");
+    }
+
 
     // View Students Profile
     public static void viewStudentsProfile() {

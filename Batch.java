@@ -13,6 +13,19 @@ public class Batch {
         this.batchId = batchId;
         this.status = status;
     }
+
+    public String getBatchId() {
+        return batchId;
+    }
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
+    }
+    public int getStatus() {
+        return status;
+    }
+    public void setStatus(int status) {
+        this.status = status;
+    }
     
     
 }
