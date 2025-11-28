@@ -414,12 +414,100 @@ class StudentManagementSystem {
 
     }
 
+    // find student
+    public static int findStudent(String registrationNo) {
+        for (int i = 0; i < studentsArray.length; i++) {
+            if (registrationNo.equals(studentsArray[i].getRegNo())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
     // Update Student
     public static void updateStudent() {
         Scanner input = new Scanner(System.in);
         System.out.println("-------------------------------------------------------------------------");
         System.out.println("|\t\t\t\tUpdate Student\t\t\t\t|");
         System.out.println("-------------------------------------------------------------------------\n");
+        System.out.print("Enter Student Registration No: ");
+        String id = input.next();
+
+        int index = findStudent(id);
+        if (index != -1) {
+            System.out.println("\n\tStudet Name     : " + studentsArray[index].getName());
+            System.out.println("\tStudet NIC     : " + studentsArray[index].getNic());
+
+            System.out.println("\nWhat do you want to update ? ");
+            System.out.println("\t(01) Student Name ");
+            System.out.println("\t(02) Student NIC ");
+            System.out.print("\nEnter your option - ");
+            int option = input.nextInt();
+            switch (option) {
+                case 1:
+                    clearConsole();
+                    System.out.println("\nStudent Name Update");
+                    System.out.println("====================\n");
+                    System.out.println("Registration No   : " + studentsArray[index].getRegNo());
+                    System.out.println("Student NIC       : " + studentsArray[index].getNic());
+                    System.out.println("Studet Current Name     : " + studentsArray[index].getName());
+                    System.out.print("\nEnter student name to update - ");
+                    String newName = input.next();
+                    studentsArray[index].setName(newName);
+                    System.out.println("\n\n\tStudent name updated successfully...");
+                    
+                    break;
+
+                case 2:
+                    clearConsole();
+                    System.out.println("\nStudent NIC Update");
+                    System.out.println("====================\n");
+                    System.out.println("Registration No     : " + studentsArray[index].getRegNo());
+                    System.out.println("Student Name        : " + studentsArray[index].getName());
+                    System.out.println("Student Current NIC : " + studentsArray[index].getNic());
+                    System.out.print("\nEnter student NIC to update - ");
+                    String newNic = input.next();
+                    if (checkedNic(newNic) == -1) {
+                        studentsArray[index].setNic(newNic) ;
+                        System.out.println("\n\tStudent NIC updated successfully...");
+                    } else {
+                        System.out.println("\n\tThis student is already added to the system...");
+                    }
+            }
+
+                    L: do {
+                        System.out.print("\nDo you want to update another student details (Y/N): ");
+                        String option1 = input.next();
+                        if (option1.equalsIgnoreCase("Y")) {
+                            clearConsole();
+                            updateStudent();
+                        } else if (option1.equalsIgnoreCase("N")) {
+                            clearConsole();
+                            homePage();
+                        } else {
+                            System.out.println("\tInvalid option..input again...");
+                            continue L;
+                        }
+                    } while (true);
+        } else {
+            System.out.print("\n\tThis student does not exist in the system.");
+            L: do {
+                System.out.print("\nDo you want to update another student details (Y/N): ");
+                String option = input.next();
+                if (option.equalsIgnoreCase("Y")) {
+                    clearConsole();
+                    updateStudent();
+                } else if (option.equalsIgnoreCase("N")) {
+                    clearConsole();
+                    homePage();
+                } else {
+                    System.out.println("\tInvalid option..input again...");
+                    continue L;
+                }
+            } while (true);
+        }
+
     }
 
     // Delete Student
