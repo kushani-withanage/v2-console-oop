@@ -1029,12 +1029,12 @@ class StudentManagementSystem {
         } while (true);
     }
 
-    // Student Registration Report
-    public static void studentRegistrationReport() {
-        Scanner input = new Scanner(System.in);
+    //print report header
+    public static void printReportHeader(String reportTitle) {
+        
         System.out.println(
                 "----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("\t\t\t\t\t     Student Registration Report    \t\t\t\t\t\t\t");
+        System.out.println("                         " + reportTitle);
         System.out.println(
                 "----------------------------------------------------------------------------------------------------------------------------\n");
 
@@ -1045,7 +1045,12 @@ class StudentManagementSystem {
         System.out.println(line1);
         System.out.println(
                 "----------------------------------------------------------------------------------------------------------------------------");
+    }
 
+    // Student Registration Report
+    public static void studentRegistrationReport() {
+        Scanner input = new Scanner(System.in);
+        printReportHeader("Student Registration Report");
         // Manual bubble sort (A to Z)
         Student[] tempstuArray = new Student[studentsArray.length];
         for (int i = 0; i < tempstuArray.length - 1; i++) {
@@ -1110,18 +1115,7 @@ class StudentManagementSystem {
     // batchReportPrint
     public static void batchReportPrint(Batch batch) {
         Scanner input = new Scanner(System.in);
-        System.out.println(
-                "----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("|\t\t\t\t\t     " + "" + " Batch Student Report    \t\t\t\t\t\t\t|");
-        System.out.println(
-                "----------------------------------------------------------------------------------------------------------------------------\n");
-        System.out.println(
-                "\n-----------------------------------------------------------------------------------------------------------------------------");
-        String line1 = String.format("%-5s%-18s%-40s%-25s%-15s%-15s%-15s", "No", "Registration No", "Student Name",
-                "NIC", "PRF Marks", "DBMS Marks", "GPA");
-        System.out.println(line1);
-        System.out.println(
-                "-----------------------------------------------------------------------------------------------------------------------------");
+        printReportHeader("Batch-wise Student Report for " + batch.getBatchId() + " Batch");
         int no = 1;
         for (int i = 0; i < studentsArray.length; i++) {
             if (batch.getBatchId().equals(studentsArray[i].getRegNo().substring(4, 7))) {
@@ -1138,7 +1132,6 @@ class StudentManagementSystem {
                 no++;
             }
         }
-
         L2: do {
             System.out.print("\n\nDo you want to another batch report (Y/N): ");
             String option = input.next();
@@ -1158,19 +1151,7 @@ class StudentManagementSystem {
     // Industry Training Eligibility
     public static void industryTrainingEligibility() {
         Scanner input = new Scanner(System.in);
-        System.out.println(
-                "-----------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("\t\t\t\t Industry Training Eligibility Student Report\t\t\t\t\t\t");
-        System.out.println(
-                "-----------------------------------------------------------------------------------------------------------------------------");
-
-        System.out.println(
-                "\n-----------------------------------------------------------------------------------------------------------------------------");
-        String line1 = String.format("%-5s%-18s%-40s%-25s%-15s%-15s%-15s", "No", "Registration No", "Student Name",
-                "NIC", "PRF Marks", "DBMS Marks", "GPA");
-        System.out.println(line1);
-        System.out.println(
-                "-----------------------------------------------------------------------------------------------------------------------------");
+        printReportHeader("Industry Training Eligibility Report");
         int no = 1;
         for (int i = 0; i < studentsArray.length; i++) {
             if (studentsArray[i].getPrf() == -1 || studentsArray[i].getPrf() == -2 || studentsArray[i].getDbms() == -1
@@ -1191,7 +1172,6 @@ class StudentManagementSystem {
                 no++;
             }
         }
-
         L2: do {
             System.out.print("\nDo you want to go to homepage (Y/N): ");
             String option = input.next();
