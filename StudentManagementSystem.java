@@ -855,6 +855,27 @@ class StudentManagementSystem {
         System.out.println("[1] PRF Marks Update");
         System.out.println("\n[2] DBMS Marks Update ");
         System.out.println("\n[3] Exit");
+
+        Scanner input = new Scanner(System.in);
+        do {
+
+            System.out.print("\nEnter an option to continue > ");
+            int option = input.nextInt();
+
+            switch (option) {
+                case 1:
+                    clearConsole();
+                    prfMarksUpdate();
+                    break;
+                case 2:
+                    clearConsole();
+                    dbmsMarksUpdate();
+                    break;
+                case 3:
+                    exittoHomePage();
+                    break;
+            }
+        } while (true);
     }
 
     // PRF Marks Update
@@ -863,6 +884,92 @@ class StudentManagementSystem {
         System.out.println("-------------------------------------------------------------------------");
         System.out.println("|\t\t\t\tPRF Marks Update\t\t\t|");
         System.out.println("-------------------------------------------------------------------------\n");
+
+        System.out.print("Enter Student Registration No: ");
+        String id = input.next();
+
+        int index = findStudent(id);
+        if (index != -1) {
+            // Clear the lines
+            System.out.print("\033[1A");
+            System.out.print("\033[0J");
+
+            System.out.println(studentsArray[index].toString());
+
+            if (studentsArray[index].getDbms() == -1) {
+                System.out.println(
+                        "\nThis student was absent from the exam. You can update the marks if they participate in it..");
+
+                System.out.print("\tEnter PRF Marks : ");
+                studentsArray[index].setPrf(input.nextInt());
+
+                System.out.println("\n\tThis student PRF Marks updated successfully...");
+
+            } else if (studentsArray[index].getDbms() == -2) {
+                System.out.print("\tEnter PRF Marks : ");
+                studentsArray[index].setPrf(input.nextInt());
+
+                System.out.println("\n\tThis student PRF Marks updated successfully...");
+
+            } else {
+
+                System.out.println("\nThis student has already completed the PRF module.");
+
+                System.out.print("\tPRF Marks : " + studentsArray[index].getDbms());
+
+                L: do {
+                    System.out.print("\n\nDo you want to update this student's PRF marks?");
+                    String option = input.next();
+                    if (option.equalsIgnoreCase("Y")) {
+                        System.out.print("\tEnter PRF Marks : ");
+                        studentsArray[index].setPrf(input.nextInt());
+
+                        System.out.println("\n\tThis student PRF Marks updated successfully...");
+                        break L;
+                    } else if (option.equalsIgnoreCase("N")) {
+                        clearConsole();
+                        homePage();
+                    } else {
+                        System.out.println("\tInvalid option..input again...");
+                        continue L;
+                    }
+                } while (true);
+
+            }
+
+            L: do {
+                System.out.print("\nDo you want to update another student PRF marks (Y/N): ");
+                String option1 = input.next();
+                if (option1.equalsIgnoreCase("Y")) {
+                    clearConsole();
+                    prfMarksUpdate();
+                } else if (option1.equalsIgnoreCase("N")) {
+                    clearConsole();
+                    homePage();
+                } else {
+                    System.out.println("\tInvalid option..input again...");
+                    continue L;
+                }
+            } while (true);
+
+        } else {
+            System.out.print("\n\tThis student does not exist in the system.");
+            L: do {
+                System.out.print("\nDo you want to update another student PRF Marks (Y/N): ");
+                String option = input.next();
+                if (option.equalsIgnoreCase("Y")) {
+                    clearConsole();
+                    prfMarksUpdate();
+                } else if (option.equalsIgnoreCase("N")) {
+                    clearConsole();
+                    homePage();
+                } else {
+                    System.out.println("\tInvalid option..input again...");
+                    continue L;
+                }
+            } while (true);
+
+        }
     }
 
     // DBMS Marks Update
@@ -871,6 +978,92 @@ class StudentManagementSystem {
         System.out.println("-------------------------------------------------------------------------");
         System.out.println("|\t\t\t\tDBMS Marks Update\t\t\t|");
         System.out.println("-------------------------------------------------------------------------\n");
+
+        System.out.print("Enter Student Registration No: ");
+        String id = input.next();
+
+        int index = findStudent(id);
+        if (index != -1) {
+            // Clear the lines
+            System.out.print("\033[1A");
+            System.out.print("\033[0J");
+
+            System.out.println(studentsArray[index].toString());
+
+            if (studentsArray[index].getDbms() == -1) {
+                System.out.println(
+                        "\nThis student was absent from the exam. You can update the marks if they participate in it..");
+
+                System.out.print("\tEnter DBMS Marks : ");
+                studentsArray[index].setDbms(input.nextInt());
+
+                System.out.println("\n\tThis student DBMS Marks updated successfully...");
+
+            } else if (studentsArray[index].getDbms() == -2) {
+                System.out.print("\tEnter DBMS Marks : ");
+                studentsArray[index].setDbms(input.nextInt());
+
+                System.out.println("\n\tThis student DBMS Marks updated successfully...");
+
+            } else {
+
+                System.out.println("\nThis student has already completed the DBMS module.");
+
+                System.out.print("\tDBMS Marks : " + studentsArray[index].getDbms());
+
+                L: do {
+                    System.out.print("\n\nDo you want to update this student's DBMS marks?");
+                    String option = input.next();
+                    if (option.equalsIgnoreCase("Y")) {
+                        System.out.print("\tEnter DBMS Marks : ");
+                        studentsArray[index].setDbms(input.nextInt());
+
+                        System.out.println("\n\tThis student DBMS Marks updated successfully...");
+                        break L;
+                    } else if (option.equalsIgnoreCase("N")) {
+                        clearConsole();
+                        homePage();
+                    } else {
+                        System.out.println("\tInvalid option..input again...");
+                        continue L;
+                    }
+                } while (true);
+
+            }
+
+            L: do {
+                System.out.print("\nDo you want to update another student DBMS marks (Y/N): ");
+                String option1 = input.next();
+                if (option1.equalsIgnoreCase("Y")) {
+                    clearConsole();
+                    dbmsMarksUpdate();
+                } else if (option1.equalsIgnoreCase("N")) {
+                    clearConsole();
+                    homePage();
+                } else {
+                    System.out.println("\tInvalid option..input again...");
+                    continue L;
+                }
+            } while (true);
+
+        } else {
+            System.out.print("\n\tThis student does not exist in the system.");
+            L: do {
+                System.out.print("\nDo you want to update another student DBMS Marks (Y/N): ");
+                String option = input.next();
+                if (option.equalsIgnoreCase("Y")) {
+                    clearConsole();
+                    dbmsMarksUpdate();
+                } else if (option.equalsIgnoreCase("N")) {
+                    clearConsole();
+                    homePage();
+                } else {
+                    System.out.println("\tInvalid option..input again...");
+                    continue L;
+                }
+            } while (true);
+
+        }
     }
 
     // Report Generator
